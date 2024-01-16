@@ -44,7 +44,7 @@ Updated gluster geerlingguy role removing the problem:
 
 1. ansible gluster -i hosts.ini -a "gluster peer status" -b
 
-2. 1. ansible gluster -i hosts.ini -a "gluster volume info" -b
+2. ansible gluster -i hosts.ini -a "gluster volume info" -b
   
 3. Connect to both servers via SSH and create a file or directory in /mnt/gluster
      - you are supposed to see created in /mnt/gluster
