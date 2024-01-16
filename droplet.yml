@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - droplet/connection_vars.yml
+
+  tasks:
+  - name: Create gluster 1
+    community.digitalocean.digital_ocean_droplet:
+      state: present
+      oauth_token: "{{ u_token }}"
+      name: gluster1
+      private_networking: true
+      size: s-1vcpu-512mb-10gb
+      image: ubuntu-20-04-x64
+      region: fra1
+      ssh_keys: "{{ u_ssh }}"
+      unique_name: true
+    register: do
+
+  - name: Create gluster 2
+    community.digitalocean.digital_ocean_droplet:
+      state: present
+      oauth_token: "{{ u_token }}"
+      name: gluster2
+      private_networking: true
+      size: s-1vcpu-512mb-10gb
+      image: ubuntu-20-04-x64
+      region: fra1
+      ssh_keys: "{{ u_ssh }}"
+      unique_name: true
+    register: do
+  
+  - import_tasks: inventory_auto.yml

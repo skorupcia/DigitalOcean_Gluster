@@ -1,0 +1,32 @@
+---
+- name: Get DigitalOcean API Token
+  set_fact:
+    do_token: "{{ u_token }}"
+
+- name: Get Droplet Information
+  uri:
+    url: "https://api.digitalocean.com/v2/droplets"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ do_token }}"
+    return_content: yes
+  register: droplets
+
+- name: Extract Droplet IPs
+  set_fact:
+    droplet_ips: "{{ droplets.json.droplets | map(attribute='networks.v4') | flatten | selectattr('type', 'equalto', 'public') | map(attribute='ip_address') | list }}"    
+
+- name: Add Droplet IPs to Inventory
+  lineinfile:
+    dest: "{{ hosts_dest }}"
+    line: "{{ item }}"
+    insertbefore: BOF  # adding line to the beginning of the file
+  loop: "{{ droplet_ips }}"
+  when: droplet_ips is defined
+
+- name: Add [gluster] group header
+  lineinfile:
+    path: "{{ hosts_dest }}"
+    line: "[gluster]"
+    insertbefore: BOF
+  when: droplet_ips is defined
