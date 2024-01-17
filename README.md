@@ -1,10 +1,12 @@
-# DigitalOcean Gluster configuration for Ubuntu droplets
+# DigitalOcean / Vagrant Gluster configuration for Ubuntu droplets
 
 ## Specifications
 
 macOS: Sonoma 14.2.1
 
-Ubuntu: Ubuntu-20-04.64
+Ubuntu: Ubuntu-20-04-x64
+
+Vagrant box: luminositylabsllc/bento-ubuntu-20.04-arm64
 
 Updated gluster geerlingguy role removing the problem:
 
@@ -23,6 +25,8 @@ Updated gluster geerlingguy role removing the problem:
    b) Update u_ssh in droplet/connection_vars.yml (ssh fingerprint)
 
    c) Update hosts_dest in droplet/connection_vars.yml (hosts.ini physical destination)
+
+4. With some adjustements to Vagrantfile and playbooks you will be able to run gluster with your local environment.
 
 
 ## RUN INSTRUCTIONS
